@@ -1,0 +1,71 @@
+﻿@using Model;
+@using Services
+@inject ContratoService ContratoService
+@inject IServicioService ServicioService
+@inject ClienteService ClienteService
+
+<div class="modal-form">
+    <EditForm Model="Contrato" OnValidSubmit="OnValidSubmit">
+        <div class="label-section">
+
+            <label>
+                Cliente
+                <InputSelect id="@listaClientes" @bind-Value="@idCliente">
+                    @foreach(var c in listaClientes)
+                    {
+                        <option value="@c.IdCliente">@c.DNI - @c.Nombre</option>
+                    }
+                </InputSelect>    
+
+            </label>
+            <label>
+                Servicio
+                <InputSelect id="@listaServicios" @bind-Value="@idServicio">
+                    @foreach (var c in listaServicios)
+                    {
+                        <option value="@c.IdServicio">@c.Nombre</option>
+                    }
+                </InputSelect>
+            </label>
+            <div class="btn-section">
+                <button class="btn btn-primary">Save</button>
+                <button class="btn btn-danger" @onclick:preventDefault @onclick="CloseForm">Cancel</button>
+            </div>
+        </div>
+    </EditForm>
+
+</div>
+
+@code {
+    [Parameter]
+    public Contrato? Contrato { get; set; } = new Contrato();
+
+    [Parameter, EditorRequired]
+    public EventCallback CloseForm { get; set; }
+    [Parameter, EditorRequired]
+    public EventCallback RefreshList { get; set; }
+
+    private List<Servicio> listaServicios;
+    private List<Cliente> listaClientes;
+    private int idServicio;
+    private int idCliente;
+    protected override async Task OnInitializedAsync()
+    {
+        listaServicios = ServicioService.GetServicios();
+        listaClientes = ClienteService.GetCliente();
+    }
+
+    public void OnValidSubmit()
+    {
+        if (idServicio == 0 || idCliente == 0)
+        {
+            CloseForm.InvokeAsync();
+            return;
+        }
+        Contrato.Cliente = listaClientes.Find((c) => c.IdCliente == idCliente);
+        Contrato.Servicio = listaServicios.Find((s) => s.IdServicio == idServicio);
+        bool ok = ContratoService.AddUpdateContrato(Contrato);
+        if (ok) RefreshList.InvokeAsync();
+        CloseForm.InvokeAsync();
+    }
+}

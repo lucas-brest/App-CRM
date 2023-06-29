@@ -1,0 +1,88 @@
+﻿@page "/contratos"
+@using Model;
+@using Services
+@inject ContratoService ContratoService
+
+<PageTitle>Contrataciones</PageTitle>
+
+<h3>Contrataciones</h3>
+<button class="btn btn-primary" @onclick="ShowForm"> Add </button>
+
+@if (lista == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>DNI</th>
+                <th>Nombre</th>
+                <th>Servicio</th>
+                <th> </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var l in lista)
+            {
+                <tr>
+                    <td>@l.Cliente.DNI</td>
+                    <td>@l.Cliente.Nombre</td>
+                    <td>@l.Servicio.Nombre</td>
+                    <td>
+                        <button class="btn btn-warning" @onclick="()=>ShowEditForm(l)">Edit</button>
+                        <button class="btn btn-danger" @onclick="()=>OnDelete(l)">Delete</button>
+                    </td>
+                </tr>
+
+            }
+        </tbody>
+    </table>
+}
+
+<div>
+    @if(FormIsActive)
+    {
+        <FormContrato Contrato="ContratoToEdit" CloseForm="CloseForm" RefreshList="RefreshList"/>
+    }
+</div>
+
+@code {
+    private List<Contrato> lista;
+    private Contrato ContratoToEdit = new Contrato();
+    private bool FormIsActive = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        lista = ContratoService.GetContrato();
+    }
+
+    public void RefreshList()
+    {
+        lista = ContratoService.GetContrato();
+    }
+
+    public void OnDelete(Contrato contrato)
+    {
+        bool ok = ContratoService.DeleteContrato(contrato);
+        if (ok) RefreshList();
+    }
+
+    public void ShowForm()
+    {
+        FormIsActive = true;
+    }
+
+    public void ShowEditForm(Contrato contrato)
+    {
+        ContratoToEdit = contrato;
+        ShowForm();
+    }
+
+    public void CloseForm()
+    {
+        FormIsActive = false;
+        ContratoToEdit = new Contrato();
+    }
+}

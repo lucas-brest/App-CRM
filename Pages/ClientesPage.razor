@@ -1,0 +1,93 @@
+﻿@page "/clientes"
+@using Model;
+@using Services
+@inject ClienteService ClienteService
+
+<PageTitle>Clientes</PageTitle>
+
+<h3>Clientes</h3>
+<button class="btn btn-primary" @onclick='ShowForm'> Add </button>
+
+@if (lista == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>DNI</th>
+                <th>Nombre</th>
+                <th>Telefono</th>
+                <th>Mail</th>
+                <th>Dirección</th>
+                <th>Observaciones</th>
+                <th> </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var l in lista)
+            {
+                <tr>
+                    <td>@l.DNI</td>
+                    <td>@l.Nombre</td>
+                    <td>@l.Telefono</td>
+                    <td>@l.Mail</td>
+                    <td>@l.Direccion</td>
+                    <td>@l.Observaciones</td>
+                    <td>
+                        <button class="btn btn-warning" @onclick="() => ShowEditForm(l)">Edit</button>
+                        <button class="btn btn-danger" @onclick="() => OnDelete(l)">Delete</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<div>
+    @if(FormIsActive)
+    {
+        <FormCliente Cliente="ClienteToEdit" CloseForm="CloseForm" RefreshList="RefreshList" />
+    }
+</div>
+
+@code {
+    private List<Cliente> lista;
+    private bool FormIsActive = false;
+    private Cliente ClienteToEdit = new Cliente();
+
+    protected override async Task OnInitializedAsync()
+    {
+        lista = ClienteService.GetCliente();
+    }
+
+    public void RefreshList()
+    {
+        lista = ClienteService.GetCliente();
+    }
+
+    public void OnDelete(Cliente cliente)
+    {
+        bool ok = ClienteService.DeleteCliente(cliente);
+        if (ok) RefreshList();
+    }
+
+    public void ShowForm()
+    {
+        FormIsActive = true;
+    }
+
+    public void ShowEditForm(Cliente cliente)
+    {
+        ClienteToEdit = cliente;
+        ShowForm();
+    }
+
+    public void CloseForm()
+    {
+        FormIsActive = false;
+        ClienteToEdit = new Cliente();
+    }
+}

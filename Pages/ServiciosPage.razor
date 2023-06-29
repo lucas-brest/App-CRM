@@ -1,0 +1,86 @@
+﻿@page "/servicios"
+@using Model;
+@using Services
+@inject IServicioService ServicioService
+
+<PageTitle>Servicios</PageTitle>
+
+
+<h3>Servicios</h3>
+
+<button class="btn btn-primary" @onclick='ShowForm'>Add</button>
+@if (lista == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th> </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var l in lista)
+            {
+                <tr>
+                    <td>@l.Nombre</td>
+                    <td>
+                        <button class="btn btn-warning" @onclick="() => ShowEditForm(l)">Edit</button>
+                        <button class="btn btn-danger" @onclick="() => OnDelete(l)">Delete</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<div>
+    @if (FormIsActive)
+    {
+        <FormServicio Servicio="ServicioToEdit" CloseForm="CloseForm" RefreshList="RefreshList"/>
+    }
+</div>
+
+
+@code {
+    private List<Servicio> lista;
+    private bool FormIsActive = false;
+    private Servicio? ServicioToEdit = new Servicio();
+
+    protected override async Task OnInitializedAsync()
+    {
+        lista = ServicioService.GetServicios();
+    }
+
+    public void RefreshList()
+    {
+        lista = ServicioService.GetServicios();
+    }
+
+    public void OnDelete(Servicio servicio)
+    {
+        bool ok = ServicioService.DeleteServicio(servicio);
+        if (ok) RefreshList();
+    }
+
+    public void ShowForm ()
+    {
+        FormIsActive = true;
+    }
+
+    public void ShowEditForm(Servicio servicio)
+    {
+        FormIsActive = true;
+        ServicioToEdit = servicio;
+    }
+
+    public void CloseForm ()
+    {
+        FormIsActive = false;
+        ServicioToEdit = new Servicio();
+    }
+
+}

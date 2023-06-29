@@ -1,0 +1,50 @@
+﻿@page "/"
+@using Services;
+@inject IServicioService ServicioService;
+@inject ContratoService ContratoService;
+@inject ClienteService ClienteService;
+
+<PageTitle>Home</PageTitle>
+
+<h1>Bienvenido!</h1>
+
+<div class="box-section">
+    <div class="box" style="background-color:rgba(29, 42, 208, 0.8)">
+        <span>
+            Servicios disponibles
+        </span>
+        <span class="number">
+            @CantServicios
+        </span>
+    </div>
+    <div class="box" style="background-color:rgba(190, 53, 10, 0.8)">
+        <span>
+            Clientes Activos
+        </span>
+        <span class="number">
+            @CantClientes
+        </span>
+    </div>
+    <div class="box" style="background-color:rgba(8, 165, 52, 0.8)">
+        <span>
+            Contrataciones de servicio
+        </span>
+        <span class="number">
+            @CantContratos
+        </span>
+    </div>
+</div>
+
+@code {
+
+    private int CantServicios;
+    private int CantClientes;
+    private int CantContratos;
+
+    protected override async Task OnInitializedAsync()
+    {
+        CantClientes = ClienteService.GetCliente().Count();
+        CantServicios = ServicioService.GetServicios().Count();
+        CantContratos = ContratoService.GetContrato().Count();
+    }
+}

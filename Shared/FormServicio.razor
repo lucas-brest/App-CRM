@@ -1,0 +1,46 @@
+﻿@using Model;
+@using Services
+@inject IServicioService ServicioService;
+
+<div class="modal-form">
+    <EditForm Model="Servicio" OnValidSubmit="onValidSubmit">
+        <div>
+            <label>Nombre</label>
+            <InputText @bind-Value="Servicio.Nombre" @ref='inputTextForFocus'/>
+            <ValidationMessage For="@(()=> Servicio.Nombre)" />
+        </div>
+        <div class="btn-section">
+            <button class="btn btn-primary" type="submit">Save</button>
+            <button class="btn btn-danger" @onclick:preventDefault @onclick="CloseForm">Cancel</button>
+        </div>
+        <DataAnnotationsValidator />
+
+    </EditForm>
+</div>
+
+@code {
+    [Parameter]
+    public Servicio? Servicio { get; set; } = new Servicio();
+
+    [Parameter, EditorRequired]
+    public EventCallback CloseForm { get; set; }
+    [Parameter, EditorRequired]
+    public EventCallback RefreshList { get; set; }
+
+    private InputText inputTextForFocus;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+            if (inputTextForFocus.Element != null)
+                await inputTextForFocus.Element.Value.FocusAsync();
+    }
+
+    public void onValidSubmit()
+    {
+        bool ok = ServicioService.AddUpdateServicio(Servicio);
+        if (ok) RefreshList.InvokeAsync();
+        CloseForm.InvokeAsync();
+    }
+
+}
