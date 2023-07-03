@@ -32,6 +32,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXgucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/Admin/Desktop/proyecto-integrador/App-CRM/Pages/PendientesPage.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUGVuZGllbnRlc1BhZ2UucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Admin/Desktop/proyecto-integrador/App-CRM/Pages/ServiciosPage.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2VydmljaW9zUGFnZS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
@@ -46,6 +50,14 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/Admin/Desktop/proyecto-integrador/App-CRM/Shared/FormServicio.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXEZvcm1TZXJ2aWNpby5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Admin/Desktop/proyecto-integrador/App-CRM/Shared/FormTarea.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXEZvcm1UYXJlYS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Admin/Desktop/proyecto-integrador/App-CRM/Shared/InfoTarea.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXEluZm9UYXJlYS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Admin/Desktop/proyecto-integrador/App-CRM/Shared/SurveyPrompt.razor]

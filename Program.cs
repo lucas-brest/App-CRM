@@ -13,6 +13,7 @@ builder.Services.AddHttpClient();
 
 builder.Services.AddTransient<IServicioService, ServicioService>();
 builder.Services.AddTransient<ClienteService>();
+builder.Services.AddTransient<PendientesService>();
 builder.Services.AddTransient<ContratoService>();
 
 builder.Services.AddDbContext<CRMDBContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DBConnectionString")));

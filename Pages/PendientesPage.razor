@@ -1,0 +1,93 @@
+﻿@page "/pendientes";
+@using App_CRM.Model;
+@using Services
+@inject PendientesService pendienteService
+
+<h3>Tareas Pendientes</h3>
+
+<button class="btn btn-primary" @onclick='ShowForm'>Add</button>
+@if (tareas == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Descripción</th>
+                <th>Fecha</th>
+                <th>DNI del Cliente</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var l in tareas)
+            {
+                <tr>
+                    <td>@l.Descripcion</td>
+                    <td>@l.Fecha</td>
+                    <td>@l.Cliente.DNI</td>
+                    <td>
+                        <button class="btn btn-info" @onclick="() => ShowInfo(l)">Info</button>
+                        <button class="btn btn-danger" @onclick="() => OnDelete(l)">Realizada</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@if (FormIsActive)
+{
+    <FormTarea CloseForm="CloseForm" RefreshList="RefreshList"/>
+}
+@if(InfoIsActive)
+{
+    <InfoTarea tarea="tp" CloseInfo="CloseInfo" DeleteTarea="OnDelete"/>
+}
+
+@code {
+    private List<TareaPendiente> tareas;
+    private bool FormIsActive = false;
+    private bool InfoIsActive = false;
+    public TareaPendiente tp;
+
+    protected override async Task OnInitializedAsync()
+    {
+        tareas = pendienteService.GetAll();
+    }
+
+    public void RefreshList ()
+    {
+        tareas = pendienteService.GetAll();
+    }
+
+    public void OnDelete(TareaPendiente tareaPendiente)
+    {
+        bool ok = pendienteService.Delete(tareaPendiente);
+
+        if (ok) RefreshList();
+    }
+
+    public void ShowInfo(TareaPendiente tareaPendiente)
+    {
+        tp = tareaPendiente;
+        InfoIsActive = true;
+    }
+
+    public void ShowForm()
+    {
+        FormIsActive = true;
+    }
+
+    public void CloseForm()
+    {
+        FormIsActive = false;
+    }
+
+    public void CloseInfo()
+    {
+        InfoIsActive = false;
+    }
+}

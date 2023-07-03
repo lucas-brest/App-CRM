@@ -13,5 +13,6 @@ namespace App_CRM.Model
         public DbSet<Cliente> Cliente { get; set; }
         public DbSet<Servicio> Servicio { get; set; }
         public DbSet<Contrato> Contrato { get; set; }
+        public DbSet<TareaPendiente> TareaPendiente { get; set; }
     }
 }

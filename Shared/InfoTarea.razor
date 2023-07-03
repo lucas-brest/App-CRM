@@ -1,0 +1,34 @@
+﻿@using App_CRM.Model;
+
+<div class="modal-form">
+    <form>
+        <div class="label-section">
+            <h3>@tarea.Descripcion</h3>
+            <h5>@tarea.Fecha</h5>
+            <span>@tarea.Cliente.Nombre</span>
+            <hr />
+            <span>DNI: @tarea.Cliente.DNI</span>
+            <span>Dirección: @tarea.Cliente.Direccion</span>
+            <span>Teléfono: @tarea.Cliente.Telefono</span>
+        </div>
+        <div>
+            <button class="btn btn-warning" @onclick="CloseInfo">
+                Volver
+            </button>
+            <button class="btn btn-danger" @onclick="() => DeleteTarea.InvokeAsync(tarea)">
+                Terminar
+            </button>
+        </div>
+    </form>
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public TareaPendiente tarea { get; set; }
+
+    [Parameter]
+    public EventCallback CloseInfo { get; set; }
+
+    [Parameter]
+    public EventCallback<TareaPendiente> DeleteTarea { get; set; }
+}

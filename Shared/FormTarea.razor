@@ -1,0 +1,80 @@
+﻿@using Model;
+@using Services;
+@inject PendientesService pendienteService
+@inject ClienteService clienteService
+
+<div class="modal-form">
+    <EditForm Model="TareaPendiente" OnValidSubmit="OnValidSubmit">
+        <div class="label-section">
+            <label>
+                Tarea
+                <InputSelect id="@listaTareas" @bind-Value="@tarea">
+                    @foreach (var t in listaTareas)
+                    {
+                        <option value="@t">@t</option>
+                    }
+                </InputSelect>
+
+            </label>
+            <label>
+                Cliente
+                <InputSelect id="@listaClientes" @bind-Value="@idCliente">
+                    @foreach (var c in listaClientes)
+                    {
+                        <option value="@c.IdCliente">@c.Nombre</option>
+                    }
+                </InputSelect>
+            </label>
+            <label>
+                Fecha
+                <InputDate @bind-Value="fecha" />
+
+            </label>
+        </div>
+        <div class="btn-section">
+            <button class="btn btn-primary">Save</button>
+            <button class="btn btn-danger" @onclick:preventDefault @onclick="CloseForm">Cancel</button>
+        </div>
+
+    </EditForm>
+</div>
+
+@code {
+    [Parameter]
+    public TareaPendiente? TareaPendiente { get; set; } = new TareaPendiente();
+    [Parameter, EditorRequired]
+    public EventCallback CloseForm { get; set; }
+    [Parameter, EditorRequired]
+    public EventCallback RefreshList { get; set; }
+
+    private List<Cliente> listaClientes;
+    private List<string> listaTareas = new List<string> {"Visita Técnica", "Llamada"};
+    private int idCliente;
+    private string tarea;
+    private DateTime fecha;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        listaClientes = clienteService.GetCliente();
+        tarea = listaTareas.ElementAt(0);
+        fecha = DateTime.Today;
+    }
+
+    public void OnValidSubmit()
+    {
+        if(idCliente == 0 || tarea == "")
+        {
+            CloseForm.InvokeAsync();
+            return;
+        }
+        TareaPendiente.Cliente = listaClientes.Find((c) => c.IdCliente == idCliente);
+        TareaPendiente.Descripcion = tarea;
+        TareaPendiente.Fecha = fecha;
+
+
+        bool ok = pendienteService.AddUpdate(TareaPendiente);
+        if (ok) RefreshList.InvokeAsync();
+        CloseForm.InvokeAsync();
+    }
+}

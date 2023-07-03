@@ -73,11 +73,12 @@ a, .btn-link {
     background-color: rgba(0, 0, 0, 0.15);
 
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: flex-start;
 }
 
 .modal-form form {
+    margin-top: 6rem;
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -87,8 +88,8 @@ a, .btn-link {
     background-color: white;
     padding: 2rem 4rem;
     border-radius: .6rem;
-
     gap: 2rem;
+    box-shadow: 0px 0px 50px 0px rgba(0,0,0,0.2);
 }
 
 .modal-form .label-section {
