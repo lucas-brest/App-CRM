@@ -6,54 +6,55 @@ namespace App_CRM.Authentication
 {
     public class CustomAuthenticationStateProvider : AuthenticationStateProvider
     {
-        private readonly ProtectedSessionStorage _sessionStorage;
-        private ClaimsPrincipal _anonymous = new ClaimsPrincipal(new ClaimsIdentity());
-
-        public CustomAuthenticationStateProvider(ProtectedSessionStorage sessionStorage)
+        public CustomAuthenticationStateProvider()
         {
-            _sessionStorage = sessionStorage;
-        }
-        public override async Task<AuthenticationState> GetAuthenticationStateAsync()
-        {
-            try
-            {
-                var userSessionStorageResult = await _sessionStorage.GetAsync<UserSession>("UserSession");
-                var userSession = userSessionStorageResult.Success ? userSessionStorageResult.Value : null;
-                if (userSession == null)
-                {
-                    return await Task.FromResult(new AuthenticationState(_anonymous));
-                }
-                var claimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity(new List<Claim>
-                {
-                    new Claim(ClaimTypes.Name, userSession.UserName),
-                    new Claim(ClaimTypes.Role, userSession.Role),
-                }, "CustomAuth"));
-                return await Task.FromResult(new AuthenticationState(claimsPrincipal));
-            } catch (Exception ex)
-            {
-                return await Task.FromResult(new AuthenticationState(_anonymous));
-            }
+            this.CurrentUser = this.GetAnonymous();
         }
 
-        public async Task UpdateAuthenticationState (UserSession userSession)
+        private ClaimsPrincipal CurrentUser { get; set; }
+
+        private ClaimsPrincipal GetUser(string userName, string id, string role)
         {
-            ClaimsPrincipal claimsPrincipal;
-
-            if(userSession != null)
+            var identity = new ClaimsIdentity(new[]
             {
-                await _sessionStorage.SetAsync("userSession", userSession);
-                claimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity(new List<Claim>
-                {
-                    new Claim(ClaimTypes.Name, userSession.UserName),
-                    new Claim(ClaimTypes.Role, userSession.Role),
-                }));
-            } else
-            {
-                await _sessionStorage.DeleteAsync("UserSession");
-                claimsPrincipal = _anonymous;
-            }
+            new Claim(ClaimTypes. Sid, id),
+            new Claim(ClaimTypes.Name, userName),
+            new Claim(ClaimTypes.Role, role)
+        }, "Authentication type");
+            return new ClaimsPrincipal(identity);
+        }
 
-            NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(claimsPrincipal)));
+        private ClaimsPrincipal GetAnonymous()
+        {
+            var identity = new ClaimsIdentity(new[]
+            {
+            new Claim(ClaimTypes.Sid, "0"),
+            new Claim(ClaimTypes.Name, "Anonymous"),
+            new Claim(ClaimTypes.Role, "Anonymous")
+        }, null);
+            return new ClaimsPrincipal(identity);
+        }
+
+        public override Task<AuthenticationState> GetAuthenticationStateAsync()
+        {
+            var task = Task.FromResult(new AuthenticationState(this.CurrentUser));
+            return task;
+        }
+
+        public Task<AuthenticationState> ChangeUser(string username, string id, string role)
+        {
+            this.CurrentUser = this.GetUser(username, id, role);
+            var task = this.GetAuthenticationStateAsync();
+            this.NotifyAuthenticationStateChanged(task);
+            return task;
+        }
+
+        public Task<AuthenticationState> Logout()
+        {
+            this.CurrentUser = this.GetAnonymous();
+            var task = this.GetAuthenticationStateAsync();
+            this.NotifyAuthenticationStateChanged(task);
+            return task;
         }
     }
 }
