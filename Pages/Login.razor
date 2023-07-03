@@ -6,29 +6,22 @@
 @inject AuthenticationStateProvider authStateProvider;
 @inject NavigationManager navManager;
 
-<div class="row">
-    <div class="col-lg-4 offset-lg-4 pt-4 pb-4 border">
-        <div class="mb-3 text-center">
-            <h3>Login</h3>
-        </div>
-        <div class="mb-3">
-            <label>
-                Usuario
-                <input @bind="model.UserName"/>
-            </label>
-        </div>
-        <div class="mb-3">
-            <label>
-                Contraseña
-                <input @bind="model.PassWord" type="password"/>
-            </label>
-        </div>
-        <div class="mb-3 d-grid gap-2">
-            <button @onclick="Authenticate" class="btn btn-primary"> 
+<div class="modal-form">
+    <EditForm Model="model" OnValidSubmit="Authenticate">
+        <label class="label-section">
+            Usuario
+            <InputText @bind-Value="model.UserName"/>
+        </label>
+        <label class="label-section">
+            Contraseña
+            <InputText type="password" @bind-Value="model.PassWord"/>
+        </label>
+        <div class="btn-section">
+            <button class="btn btn-primary">
                 Login
             </button>
         </div>
-    </div>
+    </EditForm>
 </div>
 
 @code {
@@ -55,6 +48,6 @@
                 UserName = usuario.Username,
                 Role = (usuario.IsAdminRol ? "Administrator" : "User")
             });
-        //navManager.NavigateTo("/", true);
+        navManager.NavigateTo("/", true);
     }
 }
