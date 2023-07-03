@@ -3,6 +3,7 @@
 @inject IServicioService ServicioService;
 @inject ContratoService ContratoService;
 @inject ClienteService ClienteService;
+@inject PendientesService PendienteService;
 
 <PageTitle>Home</PageTitle>
 
@@ -39,6 +40,16 @@
             </span>
         </div>
     </a>
+    <a href="/pendientes">
+        <div class="box" style="background-color:rgba(208, 149, 0, 0.8)">
+            <span>
+                Tareas Pendientes
+            </span>
+            <span class="number">
+                @CantContratos
+            </span>
+        </div>
+    </a>
 </div>
 
 @code {
@@ -46,11 +57,13 @@
     private int CantServicios;
     private int CantClientes;
     private int CantContratos;
+    private int CantTareasPendientes;
 
     protected override async Task OnInitializedAsync()
     {
         CantClientes = ClienteService.GetCliente().Count();
         CantServicios = ServicioService.GetServicios().Count();
         CantContratos = ContratoService.GetContrato().Count();
+        CantTareasPendientes = PendienteService.GetAll().Count();
     }
 }

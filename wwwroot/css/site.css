@@ -119,6 +119,7 @@ a, .btn-link {
     display: flex;
     gap: 1rem;
     padding-block: 1rem;
+    flex-wrap:wrap;
 }
 
 .box-section a {
