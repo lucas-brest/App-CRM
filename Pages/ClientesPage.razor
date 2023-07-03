@@ -1,7 +1,9 @@
 ﻿@page "/clientes"
+@attribute [Authorize(Roles = "Administrator,User")]
 @using Model;
 @using Services
 @inject ClienteService ClienteService
+
 
 <PageTitle>Clientes</PageTitle>
 

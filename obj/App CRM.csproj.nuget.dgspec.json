@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Admin\\Desktop\\proyecto-integrador\\App CRM\\App CRM.csproj": {}
+    "C:\\Users\\Admin\\Desktop\\proyecto-integrador\\App-CRM\\App CRM.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Admin\\Desktop\\proyecto-integrador\\App CRM\\App CRM.csproj": {
+    "C:\\Users\\Admin\\Desktop\\proyecto-integrador\\App-CRM\\App CRM.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Admin\\Desktop\\proyecto-integrador\\App CRM\\App CRM.csproj",
+        "projectUniqueName": "C:\\Users\\Admin\\Desktop\\proyecto-integrador\\App-CRM\\App CRM.csproj",
         "projectName": "App CRM",
-        "projectPath": "C:\\Users\\Admin\\Desktop\\proyecto-integrador\\App CRM\\App CRM.csproj",
+        "projectPath": "C:\\Users\\Admin\\Desktop\\proyecto-integrador\\App-CRM\\App CRM.csproj",
         "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Admin\\Desktop\\proyecto-integrador\\App CRM\\obj\\",
+        "outputPath": "C:\\Users\\Admin\\Desktop\\proyecto-integrador\\App-CRM\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",

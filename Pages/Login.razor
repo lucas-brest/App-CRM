@@ -1,0 +1,60 @@
+﻿@page "/login"
+@using App_CRM.Authentication;
+@using App_CRM.Services;
+@inject UsuarioService UsuarioService;
+@inject IJSRuntime js;
+@inject AuthenticationStateProvider authStateProvider;
+@inject NavigationManager navManager;
+
+<div class="row">
+    <div class="col-lg-4 offset-lg-4 pt-4 pb-4 border">
+        <div class="mb-3 text-center">
+            <h3>Login</h3>
+        </div>
+        <div class="mb-3">
+            <label>
+                Usuario
+                <input @bind="model.UserName"/>
+            </label>
+        </div>
+        <div class="mb-3">
+            <label>
+                Contraseña
+                <input @bind="model.PassWord" type="password"/>
+            </label>
+        </div>
+        <div class="mb-3 d-grid gap-2">
+            <button @onclick="Authenticate" class="btn btn-primary"> 
+                Login
+            </button>
+        </div>
+    </div>
+</div>
+
+@code {
+    private class Model
+    {
+        public string UserName { get; set; }
+        public string PassWord { get; set; }
+
+    }
+    private Model model = new Model();
+
+    private async Task Authenticate()
+    {
+        var usuario = UsuarioService.GetByUsername(model.UserName);
+        if (usuario == null || usuario.Password != model.PassWord)
+        {
+            await js.InvokeVoidAsync("alert", "Usuario o Contraseña incorrectos");
+            return;
+        }
+
+        var customAuthStateProvider = (CustomAuthenticationStateProvider)authStateProvider;
+        await customAuthStateProvider.UpdateAuthenticationState(new UserSession
+            {
+                UserName = usuario.Username,
+                Role = (usuario.IsAdminRol ? "Administrator" : "User")
+            });
+        //navManager.NavigateTo("/", true);
+    }
+}

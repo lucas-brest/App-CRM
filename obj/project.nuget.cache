@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "XOBw4+x9/Q9dsErB9qnnSVmi6JmOeWET4Iy6G1X4co2zAdDHG6kNdxLsDHQxAS9PjHVrcqUhPJ7M98i6JwhkUQ==",
+  "dgSpecHash": "DLRYRUa9pQz76sBOQN82kZuZR7YxFg4jru1X3X4PBlk5/U3FEQej3UfBBK2nwEZVcGQwaJT3OafqrfukwRfHpg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Admin\\Desktop\\proyecto-integrador\\App CRM\\App CRM.csproj",
+  "projectFilePath": "C:\\Users\\Admin\\Desktop\\proyecto-integrador\\App-CRM\\App CRM.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Admin\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",
