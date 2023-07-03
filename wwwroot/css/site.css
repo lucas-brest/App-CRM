@@ -120,6 +120,10 @@ a, .btn-link {
     padding-block: 1rem;
 }
 
+.box-section a {
+    text-decoration: none;
+}
+
 .box {
     display: flex;
     flex-direction: column;
@@ -132,6 +136,7 @@ a, .btn-link {
     color:white;
     background-color: lightgray;
 }
+
 
 .box .number {
     font-size: 2rem;
