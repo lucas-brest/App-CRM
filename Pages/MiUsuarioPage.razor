@@ -1,0 +1,48 @@
+﻿@page "/mi-usuario"
+@attribute [Authorize(Roles = "Administrator,User")]
+@using Model;
+@using Services
+@using Authentication
+@inject UsuarioService usuarioService
+@inject IJSRuntime js;
+
+
+
+<EditForm Model="miUsuario" OnValidSubmit="OnValidSubmit" class="usuario-page-form">
+    <h2>Usuario: @miUsuario.Username</h2>
+    <label> Nombre
+        <InputText @bind-Value="miUsuario.Nombre"/>
+        <ValidationMessage For="@(()=> miUsuario.Nombre)" />
+    </label>
+    <label> Contraseña
+        <InputText @bind-Value="miUsuario.Password"/>
+        <ValidationMessage For="@(()=> miUsuario.Password)" />
+    </label>
+    <button class="btn btn-primary">Guardar</button>
+    <DataAnnotationsValidator />
+</EditForm>
+
+
+@code {
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationState { get; set; }
+    private Usuario miUsuario;
+    private string username;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var auth = authenticationState;
+        username = auth.Result.User.Identity.Name;
+        miUsuario = usuarioService.GetByUsername(username);
+    }
+
+    private async void OnValidSubmit()
+    {
+        var ok = usuarioService.AddUpdate(miUsuario);
+        if(ok)
+        {
+            await js.InvokeVoidAsync("alert", "Actualizado");
+        }
+
+    }
+}

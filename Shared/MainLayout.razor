@@ -16,8 +16,11 @@
                 <AuthorizeView>
                     <Authorized>
                         <span class="logout">
-                            @context.User.Identity.Name - <a @onclick="Logout" href="javascript:void(0)"> Logout <span class="oi oi-account-logout"></span></a>
-                        </span>
+                            <NavLink href="mi-usuario">
+                                <span class="oi oi-person" aria-hidden="true"></span>
+                                    @context.User.Identity.Name
+                            </NavLink> / <a @onclick="Logout" href="javascript:void(0)"> Logout <span class="oi oi-account-logout"></span></a>
+                        </span> 
                     </Authorized>
                     <NotAuthorized>
                         <a href="/login">Login <span class="oi oi-account-login"></span></a>

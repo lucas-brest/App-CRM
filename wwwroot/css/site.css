@@ -177,3 +177,17 @@ a, .btn-link {
     align-items: center;
     gap: 1rem;
 }
+
+.usuario-page-form {
+    display: flex; 
+    flex-direction: column;
+    gap: 1.4rem;
+}
+
+.usuario-page-form h2 {
+    margin-bottom: 1rem;
+}
+
+.usuario-page-form button {
+    width: 200px;
+}
