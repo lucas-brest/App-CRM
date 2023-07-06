@@ -32,7 +32,7 @@ else
                     <td>@l.Nombre</td>
                     <AuthorizeView>
                         <Authorized>
-                            <td>
+                            <td class="btn-td">
                                 <button class="btn btn-warning" @onclick="() => ShowEditForm(l)">Edit</button>
                                 <button class="btn btn-danger" @onclick="() => OnDelete(l)">Delete</button>
                             </td>

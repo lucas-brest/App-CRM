@@ -11,20 +11,25 @@
     </div>
 
     <main>
-        <div class="top-row px-4">
-            <AuthorizeView>
-                <Authorized>
-                    <span class="logout">
-                        @context.User.Identity.Name - <a @onclick="Logout" href="javascript:void(0)"> Logout <span class="oi oi-account-logout"></span></a>
-                    </span>
-                </Authorized>
-                <NotAuthorized>
-                    <a href="/login">Login <span class="oi oi-account-login"></span></a>
-                </NotAuthorized>
-            </AuthorizeView>
+        <div class="top-row">
+            <div class=" px-4 max-width header">
+                <AuthorizeView>
+                    <Authorized>
+                        <span class="logout">
+                            @context.User.Identity.Name - <a @onclick="Logout" href="javascript:void(0)"> Logout <span class="oi oi-account-logout"></span></a>
+                        </span>
+                    </Authorized>
+                    <NotAuthorized>
+                        <a href="/login">Login <span class="oi oi-account-login"></span></a>
+                    </NotAuthorized>
+                </AuthorizeView>
+            </div>
         </div>
-        <article class="content px-4">
-            @Body
+        <article class="content px-4 max-width">
+            <div class="w-100">
+
+                @Body
+            </div>
         </article>
     </main>
 </div>

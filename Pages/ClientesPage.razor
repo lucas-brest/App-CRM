@@ -41,8 +41,8 @@ else
                     <td>@l.Telefono</td>
                     <td>@l.Mail</td>
                     <td>@l.Direccion</td>
-                    <td>@l.Observaciones</td>
-                    <td>
+                    <td class="td-max-width">@l.Observaciones</td>
+                    <td class="btn-td">
                         <button class="btn btn-warning" @onclick="() => ShowEditForm(l)">Edit</button>
                         <button class="btn btn-danger" @onclick="() => OnDelete(l)">Delete</button>
                     </td>

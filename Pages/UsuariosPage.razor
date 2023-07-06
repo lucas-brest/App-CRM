@@ -8,7 +8,7 @@
 
 <h3>Usuarios</h3>
 
-<div >
+<div class="usuario-form">
     <EditForm Model="newUsuario" OnValidSubmit="OnValidSubmit">
 
         <InputText @bind-Value="newUsuario.Nombre" placeholder="Nombre"/>
@@ -16,19 +16,21 @@
         <InputText @bind-Value="newUsuario.Username" placeholder="Username"/>
 
         <InputText @bind-Value="newUsuario.Password" placeholder="Password"/>
-
-         <InputRadioGroup @bind-Value="newUsuario.IsAdminRol">
-             <InputRadio Value="true"/> Administrador
-
-             <InputRadio Value="false"/> Usuario
-
-         </InputRadioGroup>
+        <div>
+             <InputRadioGroup @bind-Value="newUsuario.IsAdminRol">
+                 <InputRadio Value="true"/> Administrador
+                 /
+                 <InputRadio Value="false"/> Usuario
+             </InputRadioGroup>
+        </div>
 
         <button class="btn btn-primary">Add</button>
         <ValidationSummary />
         <DataAnnotationsValidator />
     </EditForm>
 </div>
+<br />
+<hr />
 
 @if (lista == null)
 {
@@ -52,7 +54,7 @@ else
                     <td>@l.Nombre</td>
                     <td>@(l.IsAdminRol ? "Administrador" : "Usuario")</td>
                     <td>@l.Username</td>
-                    <td>
+                    <td class="btn-td">
                         <button class="btn btn-danger" @onclick="() => OnDelete(l)">Delete</button>
                     </td>
                 </tr>
