@@ -1,0 +1,29 @@
+﻿@page "/login"
+
+<div class="modal-form">
+    <EditForm Model="model">
+        <label class="label-section">
+            Usuario
+            <InputText @bind-Value="model.UserName" />
+        </label>
+        <label class="label-section">
+            Contraseña
+            <InputText type="password" @bind-Value="model.PassWord" />
+        </label>
+        <div class="btn-section">
+            <button class="btn btn-primary">
+                Login
+            </button>
+        </div>
+    </EditForm>
+</div>
+
+@code {
+    private class Model
+    {
+        public string UserName { get; set; }
+        public string PassWord { get; set; }
+
+    }
+    private Model model = new Model();
+}
