@@ -96,11 +96,12 @@ a, .btn-link {
     display: flex;
     flex-direction: column;
     width: 100%;
-    gap: .2rem;
+    gap: 1rem;
 }
 
 .modal-form .btn-section {
     display: flex;
+    margin-block: 1rem;
     gap: 1rem;
     width: 100%;
     justify-content: flex-start;

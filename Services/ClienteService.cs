@@ -14,6 +14,7 @@ namespace App_CRM.Services
             try
             {
                 return _context.Cliente.ToList();
+
             }
             catch (Exception ex)
             {
