@@ -10,12 +10,18 @@
 
 <EditForm Model="miUsuario" OnValidSubmit="OnValidSubmit" class="usuario-page-form">
     <h2>Usuario: @miUsuario.Username</h2>
-    <label> Nombre
+    <label>Usuario:
+        <InputText @bind-Value="miUsuario.Username" disabled/>
+        <ValidationMessage For="@(()=> miUsuario.Nombre)" />
+    </label>
+    <label>Nombre:
         <InputText @bind-Value="miUsuario.Nombre"/>
         <ValidationMessage For="@(()=> miUsuario.Nombre)" />
     </label>
-    <label> Contraseña
-        <InputText @bind-Value="miUsuario.Password"/>
+    <label>
+        Contraseña: 
+        <InputText @bind-Value="miUsuario.Password" type=@PassInputType />
+        <span class="oi oi-eye cursor-pointer" onclick="@HideShowPassword"></span>
         <ValidationMessage For="@(()=> miUsuario.Password)" />
     </label>
     <button class="btn btn-primary">Guardar</button>
@@ -28,6 +34,8 @@
     private Task<AuthenticationState> authenticationState { get; set; }
     private Usuario miUsuario;
     private string username;
+
+    private string PassInputType = "password";
 
     protected override async Task OnInitializedAsync()
     {
@@ -43,6 +51,10 @@
         {
             await js.InvokeVoidAsync("alert", "Actualizado");
         }
+    }
 
+    private void HideShowPassword()
+    {
+        PassInputType = (PassInputType.Equals("password") ? "text" : "password");
     }
 }
