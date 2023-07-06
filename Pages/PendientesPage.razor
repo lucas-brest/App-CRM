@@ -10,6 +10,16 @@
 <h3>Tareas Pendientes</h3>
 
 <button class="btn btn-primary" @onclick='ShowForm'>Add</button>
+
+<hr />
+<select @bind="filtro">
+    <option value="">Todos</option>
+    @foreach(var tarea in listaTareas)
+    {
+        <option value="@tarea">@tarea</option>
+    }
+</select>
+
 @if (tareas == null)
 {
     <p><em>Loading...</em></p>
@@ -28,15 +38,19 @@ else
         <tbody>
             @foreach (var l in tareas)
             {
-                <tr>
-                    <td>@l.Descripcion</td>
-                    <td>@l.Fecha</td>
-                    <td>@l.Cliente.DNI</td>
-                    <td class="btn-td">
-                        <button class="btn btn-info" @onclick="() => ShowInfo(l)">Info</button>
-                        <button class="btn btn-danger" @onclick="() => OnDelete(l)">Realizada</button>
-                    </td>
-                </tr>
+                @if(Filtrar(l.Descripcion))
+                {
+                    
+                    <tr>
+                        <td>@l.Descripcion</td>
+                        <td>@l.Fecha</td>
+                        <td>@l.Cliente.DNI</td>
+                        <td class="btn-td">
+                            <button class="btn btn-info" @onclick="() => ShowInfo(l)">Info</button>
+                            <button class="btn btn-danger" @onclick="() => OnDelete(l)">Realizada</button>
+                        </td>
+                    </tr>
+                }
             }
         </tbody>
     </table>
@@ -44,7 +58,7 @@ else
 
 @if (FormIsActive)
 {
-    <FormTarea CloseForm="CloseForm" RefreshList="RefreshList"/>
+    <FormTarea CloseForm="CloseForm" RefreshList="RefreshList" ListaTareas="listaTareas"/>
 }
 @if(InfoIsActive)
 {
@@ -52,6 +66,9 @@ else
 }
 
 @code {
+    private List<string> listaTareas = new List<string> { "Visita Técnica", "Llamada", "Dar de Baja" };
+    private string filtro = "";
+
     private List<TareaPendiente> tareas;
     private bool FormIsActive = false;
     private bool InfoIsActive = false;
@@ -93,5 +110,12 @@ else
     public void CloseInfo()
     {
         InfoIsActive = false;
+    }
+
+    public bool Filtrar(string tarea)
+    {
+        if (filtro.Equals("")) return true;
+
+        return tarea.Equals(filtro);
     }
 }

@@ -8,8 +8,8 @@
         <div class="label-section">
             <label>
                 Tarea
-                <InputSelect id="@listaTareas" @bind-Value="@tarea">
-                    @foreach (var t in listaTareas)
+                <InputSelect id="@ListaTareas" @bind-Value="@tarea">
+                    @foreach (var t in ListaTareas)
                     {
                         <option value="@t">@t</option>
                     }
@@ -21,7 +21,7 @@
                 <InputSelect id="@listaClientes" @bind-Value="@idCliente">
                     @foreach (var c in listaClientes)
                     {
-                        <option value="@c.IdCliente">@c.Nombre</option>
+                        <option value="@c.IdCliente">@c.DNI - @c.Nombre</option>
                     }
                 </InputSelect>
             </label>
@@ -46,9 +46,10 @@
     public EventCallback CloseForm { get; set; }
     [Parameter, EditorRequired]
     public EventCallback RefreshList { get; set; }
+    [Parameter, EditorRequired]
+    public List<string> ListaTareas { get; set; }
 
     private List<Cliente> listaClientes;
-    private List<string> listaTareas = new List<string> {"Visita Técnica", "Llamada"};
     private int idCliente;
     private string tarea;
     private DateTime fecha;
@@ -57,7 +58,7 @@
     protected override async Task OnInitializedAsync()
     {
         listaClientes = clienteService.GetCliente();
-        tarea = listaTareas.ElementAt(0);
+        tarea = ListaTareas.ElementAt(0);
         fecha = DateTime.Today;
     }
 
