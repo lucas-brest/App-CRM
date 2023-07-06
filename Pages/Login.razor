@@ -1,0 +1,63 @@
+﻿@page "/login"
+@layout LoginLayout;
+@using App_CRM.Authentication
+@using App_CRM.Services
+@inject UsuarioService usuarioService;
+@inject IJSRuntime js;
+@inject AuthenticationStateProvider authStateProvider;
+@inject NavigationManager navManager;
+
+<div class="modal-form">
+    <EditForm Model="model" OnValidSubmit="Authenticate">
+        <label class="label-section">
+            Usuario
+            <InputText @bind-Value="model.UserName" @ref='inputTextForFocus'/>
+        </label>
+        <label class="label-section">
+            Contraseña
+            <InputText type="password" @bind-Value="model.PassWord" />
+        </label>
+        <div class="btn-section">
+            <button class="btn btn-primary">
+                Login
+            </button>
+        </div>
+    </EditForm>
+</div>
+
+@code {
+    private class Model
+    {
+        public string UserName { get; set; }
+        public string PassWord { get; set; }
+
+    }
+    private Model model = new Model();
+
+    private InputText inputTextForFocus;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+            if (inputTextForFocus.Element != null)
+                await inputTextForFocus.Element.Value.FocusAsync();
+    }
+
+    private async Task Authenticate()
+    {
+        var usuario = usuarioService.GetByUsername(model.UserName);
+        if (usuario == null || usuario.Password != model.PassWord)
+        {
+            await js.InvokeVoidAsync("alert", "Usuario o Contraseña incorrectos");
+            return;
+        }
+
+        var customAuthStateProvider = (CustomAuthenticationStateProvider)authStateProvider;
+        await customAuthStateProvider.UpdateAuthenticationState(new UserSession
+            {
+                UserName = usuario.Username,
+                Role = (usuario.IsAdminRol ? "Administrator" : "User")
+            });
+        navManager.NavigateTo("/", true);
+    }
+}

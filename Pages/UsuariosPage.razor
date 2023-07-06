@@ -1,0 +1,92 @@
+﻿@page "/usuarios"
+@attribute [Authorize(Roles = "Administrator")]
+@using Model;
+@using Services;
+@inject UsuarioService usuarioService;
+
+<PageTitle>Usuarios</PageTitle>
+
+<h3>Usuarios</h3>
+
+<div >
+    <EditForm Model="newUsuario" OnValidSubmit="OnValidSubmit">
+
+        <InputText @bind-Value="newUsuario.Nombre" placeholder="Nombre"/>
+
+        <InputText @bind-Value="newUsuario.Username" placeholder="Username"/>
+
+        <InputText @bind-Value="newUsuario.Password" placeholder="Password"/>
+
+         <InputRadioGroup @bind-Value="newUsuario.IsAdminRol">
+             <InputRadio Value="true"/> Administrador
+
+             <InputRadio Value="false"/> Usuario
+
+         </InputRadioGroup>
+
+        <button class="btn btn-primary">Add</button>
+        <ValidationSummary />
+        <DataAnnotationsValidator />
+    </EditForm>
+</div>
+
+@if (lista == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nombre</th
+                <th>Rol</th
+                <th>Username</th>
+                <th> </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var l in lista)
+            {
+                <tr>
+                    <td>@l.Nombre</td>
+                    <td>@(l.IsAdminRol ? "Administrador" : "Usuario")</td>
+                    <td>@l.Username</td>
+                    <td>
+                        <button class="btn btn-danger" @onclick="() => OnDelete(l)">Delete</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private Usuario newUsuario = new Usuario();
+    private List<Usuario> lista;
+
+    protected override async Task OnInitializedAsync()
+    {
+        lista = usuarioService.GetAll();
+    }
+
+    public void RefreshList()
+    {
+        lista = usuarioService.GetAll();
+    }
+
+    public void OnDelete(Usuario usuario)
+    {
+        bool ok = usuarioService.Delete(usuario);
+        if (ok) RefreshList();
+    }
+
+    public void OnValidSubmit()
+    {
+        bool ok = usuarioService.AddUpdate(newUsuario);
+        if (ok) {
+            RefreshList();
+            newUsuario = new Usuario();
+        }
+    }
+}

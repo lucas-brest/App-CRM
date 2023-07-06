@@ -1,4 +1,5 @@
 ﻿@page "/contratos"
+@attribute [Authorize(Roles = "Administrator,User")]
 @using Model;
 @using Services
 @inject ContratoService ContratoService

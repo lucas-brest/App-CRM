@@ -1,4 +1,5 @@
 ﻿@page "/pendientes";
+@attribute [Authorize(Roles = "Administrator,User")]
 @using App_CRM.Model;
 @using Services
 @inject PendientesService pendienteService

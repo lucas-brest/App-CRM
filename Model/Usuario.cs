@@ -4,13 +4,15 @@ namespace App_CRM.Model
 {
 	public class Usuario
 	{
-        public bool IsAdminRol { get; set; }
+		[Key, Required]
+        public string Username { get; set; }
+
+        [Required]
         public string? Nombre { get; set; }
-		[Key]
-        public string? Username { get; set; }
+        [Required]
         public string? Password { get; set; }
-        public bool Estado { get; set; }
-        public DateTime? UltimoLogin { get; set; }
+        [Required]
+        public bool IsAdminRol { get; set; }
 
     }
 }

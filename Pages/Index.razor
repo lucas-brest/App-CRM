@@ -20,36 +20,40 @@
             </span>
         </div>
     </a>
-    <a href="/clientes">
-        <div class="box" style="background-color:rgba(190, 53, 10, 0.8)">
-            <span>
-                Clientes Activos
-            </span>
-            <span class="number">
-                @CantClientes
-            </span>
-        </div>
-    </a>
-    <a href="/contratos">
-        <div class="box" style="background-color:rgba(8, 165, 52, 0.8)">
-            <span>
-                Contrataciones de servicio
-            </span>
-            <span class="number">
-                @CantContratos
-            </span>
-        </div>
-    </a>
-    <a href="/pendientes">
-        <div class="box" style="background-color:rgba(208, 149, 0, 0.8)">
-            <span>
-                Tareas Pendientes
-            </span>
-            <span class="number">
-                @CantTareasPendientes
-            </span>
-        </div>
-    </a>
+    <AuthorizeView>
+        <Authorized>
+            <a href="/clientes">
+                <div class="box" style="background-color:rgba(190, 53, 10, 0.8)">
+                    <span>
+                        Clientes Activos
+                    </span>
+                    <span class="number">
+                        @CantClientes
+                    </span>
+                </div>
+            </a>
+            <a href="/contratos">
+                <div class="box" style="background-color:rgba(8, 165, 52, 0.8)">
+                    <span>
+                        Contrataciones de servicio
+                    </span>
+                    <span class="number">
+                        @CantContratos
+                    </span>
+                </div>
+            </a>
+            <a href="/pendientes">
+                <div class="box" style="background-color:rgba(208, 149, 0, 0.8)">
+                    <span>
+                        Tareas Pendientes
+                    </span>
+                    <span class="number">
+                        @CantTareasPendientes
+                    </span>
+                </div>
+            </a>
+        </Authorized>
+    </AuthorizeView>
 </div>
 
 @code {
