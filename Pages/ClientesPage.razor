@@ -6,7 +6,10 @@
 <PageTitle>Clientes</PageTitle>
 
 <h3>Clientes</h3>
-<button class="btn btn-primary" @onclick='ShowForm'> Add </button>
+<div>
+    <button class="btn btn-primary" @onclick='ShowForm'> Add </button>
+    <input @bind-value="Buscador" placeholder="Search..."/>
+</div>
 
 @if (lista == null)
 {
@@ -29,6 +32,8 @@ else
         <tbody>
             @foreach (var l in lista)
             {
+                @if(filtrarCliente(l, Buscador))
+                {
                 <tr>
                     <td>@l.DNI</td>
                     <td>@l.Nombre</td>
@@ -41,6 +46,7 @@ else
                         <button class="btn btn-danger" @onclick="() => OnDelete(l)">Delete</button>
                     </td>
                 </tr>
+                }                
             }
         </tbody>
     </table>
@@ -54,6 +60,7 @@ else
 </div>
 
 @code {
+    private string Buscador;
     private List<Cliente> lista;
     private bool FormIsActive = false;
     private Cliente ClienteToEdit = new Cliente();
@@ -89,5 +96,16 @@ else
     {
         FormIsActive = false;
         ClienteToEdit = new Cliente();
+    }
+
+    private bool filtrarCliente(Cliente c, string filtro)
+    {
+        if (filtro == null || filtro.Length == 0) return true;
+        bool res = false;
+
+        res |= c.DNI.ToString().Contains(filtro);
+        res |= c.Nombre.ToLower().Contains(filtro);
+
+        return res;
     }
 }
