@@ -176,7 +176,7 @@ a, .btn-link {
     font-weight: 500;
 }
 
-.usuario-form form{
+.usuario-form{
     display: flex;
     align-items: center;
     gap: 1rem;

@@ -8,23 +8,29 @@
 
 <h3>Usuarios</h3>
 
-<div class="usuario-form">
+<div >
     <EditForm Model="newUsuario" OnValidSubmit="OnValidSubmit">
 
-        <InputText @bind-Value="newUsuario.Nombre" placeholder="Nombre"/>
+        <div class="usuario-form">
+            <InputText @bind-Value="newUsuario.Nombre" placeholder="Nombre"/>
 
-        <InputText @bind-Value="newUsuario.Username" placeholder="Username"/>
+            <InputText @bind-Value="newUsuario.Username" placeholder="Username"/>
 
-        <InputText @bind-Value="newUsuario.Password" placeholder="Password"/>
-        <div>
-             <InputRadioGroup @bind-Value="newUsuario.IsAdminRol">
-                 <InputRadio Value="true"/> Administrador
-                 /
-                 <InputRadio Value="false"/> Usuario
-             </InputRadioGroup>
+            <InputText @bind-Value="newUsuario.Password" placeholder="Password"/>
+            <div>
+                 <InputRadioGroup @bind-Value="newUsuario.IsAdminRol">
+                     <label>
+                        <InputRadio Value="true"/> Administrador
+                     </label>
+                     /
+                     <label>
+                        <InputRadio Value="false"/> Usuario
+                     </label>
+                 </InputRadioGroup>
+            </div>
+            <button class="btn btn-primary">Add</button>
         </div>
 
-        <button class="btn btn-primary">Add</button>
         <ValidationSummary />
         <DataAnnotationsValidator />
     </EditForm>
