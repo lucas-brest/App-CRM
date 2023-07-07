@@ -3,6 +3,7 @@
 @using Model;
 @using Services;
 @inject UsuarioService usuarioService;
+@inject IJSRuntime js;
 
 <PageTitle>Usuarios</PageTitle>
 
@@ -83,14 +84,21 @@ else
         lista = usuarioService.GetAll();
     }
 
-    public void OnDelete(Usuario usuario)
+    public async void OnDelete(Usuario usuario)
     {
+        bool confirmed = await js.InvokeAsync<bool>("confirm", "Desea eliminar el usuario?");
+        if (!confirmed) return;
+
         bool ok = usuarioService.Delete(usuario);
+
         if (ok) RefreshList();
     }
 
-    public void OnValidSubmit()
+    public async void OnValidSubmit()
     {
+
+        // checkear si ya existe
+
         bool ok = usuarioService.AddUpdate(newUsuario);
         if (ok) {
             RefreshList();
