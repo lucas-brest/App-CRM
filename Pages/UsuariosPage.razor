@@ -48,8 +48,8 @@ else
     <table class="table">
         <thead>
             <tr>
-                <th>Nombre</th
-                <th>Rol</th
+                <th>Nombre</th>
+                <th>Rol</th>
                 <th>Username</th>
                 <th> </th>
             </tr>
@@ -97,7 +97,14 @@ else
     public async void OnValidSubmit()
     {
 
-        // checkear si ya existe
+        // verifica si ya existe
+        if (usuarioService.GetByUsername(newUsuario.Username) != null)
+        {
+            newUsuario.Username = "";
+            await js.InvokeVoidAsync("alert", "Ya existe el usuario");
+            return;
+        }
+
 
         bool ok = usuarioService.AddUpdate(newUsuario);
         if (ok) {
